@@ -1,0 +1,26 @@
+/ {
+    chosen {
+        zephyr,display = &oled;
+    };
+};
+
+/* I²C0 on nice!nano v2 for the OLEDs (adjust pins if your PCB uses others) */
+&i2c0 {
+    status = "okay";
+
+    /* Typical, but confirm against your Sofle PCB silkscreen/docs */
+    sda-pin = <26>; /* P0.26 */
+    scl-pin = <27>; /* P0.27 */
+
+    oled: ssd1306@3c {
+        compatible = "solomon,ssd1306fb";
+        reg = <0x3c>;     /* most 128x32 modules default to 0x3C */
+        width = <128>;
+        height = <32>;
+        multiplex-ratio = <31>;
+        /* If your module wired RESET, uncomment & set:
+           reset-gpios = <&gpio0 7 GPIO_ACTIVE_LOW>;
+        */
+    };
+};
+
